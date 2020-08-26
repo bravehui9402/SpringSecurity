@@ -1,0 +1,51 @@
+# 内置tomcat容器配置
+server:
+    port: 8181
+
+spring:
+  profiles:
+    active: dev #选择配置分支，先读取系统环境变量，如果没有则默认值为 dev
+  application:
+    name: empsys
+
+  #修改thymeleaf访问根路径
+  thymeleaf:
+    prefix: classpath:/
+    cache: false
+
+  #mvc接收参数时对日期进行格式化
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  #jackson对响应回去的日期参数进行格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+
+  #热部署生效
+  devtools:
+    restart:
+      enabled: true
+
+
+#mybatis设置
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true #开启驼峰命名规范
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations:
+    - classpath:/mapper/**Mapper.xml
+
+---
+# 配置dev数据库
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://121.43.100.25:3306/dksys?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    username: root
+    password: Lh940228.
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+

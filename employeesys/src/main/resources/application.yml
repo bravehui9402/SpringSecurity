@@ -1,0 +1,7 @@
+spring:
+  #数据库配置
+  datasource:
+    url: jdbc:mysql://121.43.100.25:3306/dksys?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    username: root
+    password: Lh940228.
+    driver-class-name: com.mysql.cj.jdbc.Driver

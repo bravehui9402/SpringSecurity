@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.empsys.sys.mapper.MenuMapper">
+
+    <select id="getOneLevelMenusByUserId" parameterType="java.lang.String" resultType="com.lh.empsys.sys.pojo.Menu">
+            select distinct menu.*
+            from sys_menu menu
+                 LEFT JOIN  sys_menu_authority ma on menu.menu_id = ma.menu_id
+                 LEFT JOIN sys_user_authority us on ma.authority_id = us.user_id
+                 LEFT JOIN sys_user u on  us.user_id =#{userId}
+            where menu.menu_parent_id = 0
+    </select>
+    <select id="getTwoLevelMenusByUserId" parameterType="java.lang.String" resultType="com.lh.empsys.sys.pojo.Menu">
+        select distinct menu.*
+            from sys_menu menu
+                 LEFT JOIN  sys_menu_authority ma on menu.menu_id = ma.menu_id
+                 LEFT JOIN sys_user_authority us on ma.authority_id = us.user_id
+                 LEFT JOIN sys_user u on  us.user_id =#{userId}
+            where menu.menu_parent_id = 1
+    </select>
+</mapper>

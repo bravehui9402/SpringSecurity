@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">登录名</label>
+        <div class="layui-input-block">
+            <input type="text" name="loginName" lay-verify="loginName" lay-reqtext="登录名不能为空" placeholder="请输入登录名" value="" class="layui-input">
+            <tip>填写登录账号的名称。</tip>
+        </div>
+    </div>
+	<div class="layui-form-item">
+	    <label class="layui-form-label required">登录密码</label>
+	    <div class="layui-input-block">
+			<input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">	        <tip>填写登录密码。</tip>
+	    </div>
+	</div>
+	<div class="layui-form-item">
+	    <label class="layui-form-label required">用户名</label>
+	    <div class="layui-input-block">
+	        <input type="text" name="username" lay-verify="username" lay-reqtext="用户名不能为空" placeholder="请输入用户名" value="" class="layui-input">
+	        <tip>填写账号的名称。</tip>
+	    </div>
+	</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">手机</label>
+        <div class="layui-input-block">
+            <input type="number" name="phone" lay-verify="required|phone" lay-reqtext="手机不能为空" placeholder="请输入手机" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../../api.js" charset="utf-8"></script>
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var index = 
+			layer.alert("是否确认提交？", {
+                title: '确认提交'
+            }, function () {
+				$.ajax({
+				        url:commonURL+'/sys/user/addUser',
+				        type:'post',
+				        dataType:'json',
+				        data:data.field,
+				        success: function (response) {
+				            alert("提交成功!");
+				        }
+				    })
+
+                // 关闭弹出层
+                layer.close(index);
+                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(iframeIndex);
+            });
+
+            return false;
+        });
+		
+		  //自定义验证规则
+		  form.verify({
+		    loginName: function(value){
+		      if(value.length < 4){
+		        return '登录名至少得4个字符啊';
+		      }
+		    }
+		    ,pass: [
+		      /^[\S]{6,12}$/
+		      ,'密码必须6到12位，且不能出现空格'
+		    ]
+			,username: function(value){
+				if(value.length<2){
+					return '用户名至少得2个字符啊';
+				}
+			}
+		  });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://121.43.100.25:3306/blog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: Lh940228.
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml

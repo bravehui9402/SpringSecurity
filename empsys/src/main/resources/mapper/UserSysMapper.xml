@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.empsys.sys.mapper.UserSysMapper">
+
+    <select id="getUserList" parameterType="cn.hutool.json.JSONObject" resultType="com.lh.empsys.user.pojo.UserInfo">
+        select * from sys_user su
+        <where>
+            <if test="username != null and username != ''">
+                su.user_name like CONCAT("%",#{username},"%")
+            </if>
+        </where>
+    </select>
+
+    <select id="getUserRoleList" parameterType="java.lang.String" resultType="com.lh.empsys.sys.pojo.Role">
+        select sa.authority_id roleId,sa.authority_name roleName,sa.authority_remark roleRemark
+        from sys_user su,sys_user_authority sua,sys_authority sa
+        where su.user_id = sua.user_id
+            and sua.authority_id = sa.authority_id
+            and su.user_id = #{userId}
+    </select>
+
+    <insert id="addUser" parameterType="com.lh.empsys.user.pojo.UserInfo">
+        insert into  sys_user(login_name, user_name, password, create_time, update_time, phone)
+                      VALUES (#{loginName},#{username},#{password},sysdate(),sysdate(),#{phone})
+    </insert>
+</mapper>
